@@ -1,0 +1,52 @@
+Backend Dockerfile:
+
+FROM golang:1.16
+WORKDIR /usr/local
+#Copy the whole folder
+COPY . .
+ENV REQUEST_ORIGIN=http://localhost:5000
+ENV PORT=8080
+
+RUN go version
+
+#Build the server with go
+RUN go build
+
+
+EXPOSE 8080
+
+CMD [ "./server" ]
+
+Frontend Dockerfile:
+
+FROM ubuntu:22.04
+
+WORKDIR /usr/src/myfolder
+#Install curl
+COPY . .
+ENV REACT_APP_BACKEND_URL=http://localhost:8080
+RUN mkdir build
+RUN apt-get update && apt-get install -y curl
+#Install Node
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash
+RUN apt install -y nodejs
+
+#Check that node works
+RUN node -v && npm -v
+
+#Install all packages
+RUN npm install package.json
+
+#Install packages
+RUN npm install -g serve
+
+RUN npm run build
+
+#Expose port 5000 
+EXPOSE 5000
+CMD serve -s -l 5000 build
+
+Commands:
+docker run -t -p8080:8080 example-backend
+
+docker run -it -p5000:5000 example-frontend

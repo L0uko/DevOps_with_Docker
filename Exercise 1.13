@@ -1,0 +1,25 @@
+FROM golang:1.16
+WORKDIR /usr/local
+#Copy the whole folder
+COPY . .
+
+ENV PORT=8080
+ENV REQUEST_ORIGIN=https://example.com
+
+#RUN export PATH=$PATH:local/go/bin
+#install golang
+#RUN apt-get update && apt-get install -y curl 
+#RUN apt-get install tar gzip
+#RUN curl -O https://golang.org/dl/go1.16.linux-amd64.tar.gz
+#RUN rm -rf /usr/local/go
+#RUN tar  -xzf go1.16.linux-amd64.tar.gz
+#Check that go is working
+RUN go version
+
+#Build the server with go
+RUN go build
+
+
+EXPOSE 8080
+
+CMD [ "./server" ]
