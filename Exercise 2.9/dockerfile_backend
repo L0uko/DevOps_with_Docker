@@ -1,0 +1,23 @@
+FROM golang:1.16
+WORKDIR /usr/local
+#Copy the whole folder
+COPY . .
+ENV REQUEST_ORIGIN=http://localhost:5000
+ENV REQUEST_ORIGIN=http://localhost
+ENV REQUEST_ORIGIN=http://127.0.0.0
+ENV PORT=8080
+ARG REDIS_HOST
+ARG POSTGRES_HOST
+ARG POSTGRES_USER
+ARG POSTGRES_PASSWORD
+ARG POSTGRES_DATABASE
+
+RUN go version
+
+#Build the server with go
+RUN go build
+
+
+EXPOSE 8080
+
+CMD [ "./server" ]
