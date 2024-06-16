@@ -3,10 +3,9 @@ WORKDIR /usr/local
 #Copy the whole folder
 COPY . .
 ENV REQUEST_ORIGIN=http://localhost:5000
-#Add another enviroment for 2.9
-ENV REQUEST_ORIGIN=http://localhost
+ENV REQUEST_ORIGIN=http://localhost/
 ENV REQUEST_ORIGIN=http://127.0.0.0
-ENV PORT=8080
+ARG PORT
 ARG REDIS_HOST
 ARG POSTGRES_HOST
 ARG POSTGRES_USER
